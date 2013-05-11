@@ -15,7 +15,9 @@ public:
 	
 	virtual void Start();
 	
-	virtual void Run() = 0;
+	virtual void thread_join();
+	
+	virtual void run() = 0;
 	
 };
 

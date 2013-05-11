@@ -4,8 +4,10 @@
 #include <iostream>
 #include <string>
 #include "thread.h"
+#include "recipient.h"
+#include "global.h"
 
-class Console:public Thread{
+class Console : public Thread, public Recipient{
 
 private:
 
@@ -16,8 +18,12 @@ public:
 
 	Console();
 	
-	void Run();
+	void initialize();
+	
+	void run();
 
+	void receiveMessage(Message &);
+	
 };
 
 #endif

@@ -1,15 +1,19 @@
 #ifndef SERVER_H_
 #define SERVER_H_
 
-#include <stdio.h>
-#include <pthread.h>
-#include "console.h"
+#include "datatype.h"
+#include "recipient.h"
+#include "global.h"
+#include "thread.h"
+#include <iostream>
 
-class Server{
+class Server: public Recipient, public Thread{
 
 private:
-	Console _console;
 
+	friend class Thread;
+	bool _running;
+	
 public:
 
 	// Constructor
@@ -20,7 +24,12 @@ public:
 	
 	// Initialize everything
 	void initialize();
+	
+	void receiveMessage(Message &);
 
+	// Thread run
+	void run();
+	
 };
 
 #endif

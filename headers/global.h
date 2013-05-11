@@ -3,6 +3,6 @@
 
 #include "messageDispatcher.h"
 
-extern MessageDispatcher _messageDispatcher;
+extern MessageDispatcher * _messageDispatcher;
 
 #endif
