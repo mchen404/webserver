@@ -6,8 +6,8 @@ Console::Console():_running(true){
 void Console::initialize(){
 	
 	// Register for messages
-	MessageType messagesToRegister[] = {SHUTDOWN};
-	_messageDispatcher->Register(this,messagesToRegister);
+	MessageID messagesToRegister[] = {SHUTDOWN,ERROR_MESSAGE};
+	_messageDispatcher->Register(this,messagesToRegister,sizeof(messagesToRegister)/sizeof(messagesToRegister[0]));
 	
 };
 
@@ -21,9 +21,9 @@ void Console::run(){
 		getline(std::cin, input);
 		std::cout << "CONSOLE: " << input << std::endl;
 		
-		if(0 == input.compare("SHUTDOWN")){
+		if(!input.compare("SHUTDOWN")){
 			Message message;
-			message.setType(SHUTDOWN);
+			message.setID(SHUTDOWN);
 			_messageDispatcher->sendMessage(message);
 		}
 	}
@@ -32,15 +32,19 @@ void Console::run(){
 
 void Console::receiveMessage(Message &message){
 
-	MessageType type = message.getType();
+	const MessageID messageID = message.getID();
 	
-	switch(type){
+	switch(messageID){
 	
 		case SHUTDOWN:{
 			_running = false;
 			std::cout << "CONSOLE RECEIVED SHUTDOWN\n";
 			break;
 		}
+		case ERROR_MESSAGE:{
+			const std::string errorMessage = *static_cast<std::string *>( message.getData() );
+			std::cout << errorMessage << std::endl;
+		};
 		default:{
 			break;
 		}
