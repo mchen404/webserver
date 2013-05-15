@@ -8,18 +8,16 @@ MessageDispatcher::~MessageDispatcher(){
 
 };
 
-void MessageDispatcher::Register(Recipient * recipient, const MessageType messagesToRegister[]){
+void MessageDispatcher::Register(Recipient * recipient, const MessageID messagesToRegister[], const int numOfMessages){
 	
-	// get number of elements in array
-	int size = sizeof(messagesToRegister)/sizeof(messagesToRegister[0]);
 	
-	for(int index = 0; index < size; index++){
+	for(int index = 0; index < numOfMessages; index++){
 		
 		// message type
-		MessageType messageType = messagesToRegister[index];
+		const MessageID messageID = messagesToRegister[index];
 		
 		// find key
-		std::map<MessageType, std::vector<Recipient *> >::iterator it = find(messageType);
+		const std::map<MessageID, std::vector<Recipient *> >::iterator it = find(messageID);
 		
 		// if key is found
 		if( it != RecipientTable.end() ){
@@ -30,7 +28,7 @@ void MessageDispatcher::Register(Recipient * recipient, const MessageType messag
 			// protect this...
 			std::vector<Recipient *> recipientList;
 			recipientList.push_back(recipient);
-			RecipientTable.insert(std::pair<MessageType, std::vector<Recipient *> >(messageType,recipientList));
+			RecipientTable.insert(std::pair<MessageID, std::vector<Recipient *> >(messageID,recipientList));
 			
 		}
 		
@@ -38,18 +36,18 @@ void MessageDispatcher::Register(Recipient * recipient, const MessageType messag
 
 };
 
-const std::map<MessageType, std::vector<Recipient *> >::iterator MessageDispatcher::find(const MessageType messageType){
+const std::map<MessageID, std::vector<Recipient *> >::iterator MessageDispatcher::find(const MessageID messageID){
 
-	return RecipientTable.find(messageType);
+	return RecipientTable.find(messageID);
 
 };
 
 void MessageDispatcher::sendMessage(Message &message){
 
-	MessageType messageType = message.getType();
+	MessageID messageID = message.getID();
 	
 	// find key
-	std::map<MessageType, std::vector<Recipient *> >::iterator it = find(messageType);
+	std::map<MessageID, std::vector<Recipient *> >::iterator it = find(messageID);
 		
 	// if key is found
 	if( it != RecipientTable.end() ){
