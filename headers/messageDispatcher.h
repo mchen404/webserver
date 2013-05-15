@@ -10,9 +10,9 @@ class MessageDispatcher{
 
 private:
 
-	std::map<MessageType, std::vector<Recipient *> > RecipientTable;
+	std::map<MessageID, std::vector<Recipient *> > RecipientTable;
 	
-	const std::map<MessageType, std::vector<Recipient *> >::iterator find(const MessageType);
+	const std::map<MessageID, std::vector<Recipient *> >::iterator find(const MessageID);
 
 	
 public:
@@ -24,11 +24,9 @@ public:
 	~MessageDispatcher();
 
 	// register for message
-	void Register(Recipient *, const MessageType[]);
+	void Register(Recipient *, const MessageID[], const int);
 	
 	// Send message
-	/* template<class T>
-	void SendMessage(MessageType, T){}; */
 	void sendMessage(Message &);
 	
 };
