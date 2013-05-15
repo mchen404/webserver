@@ -1,44 +1,44 @@
 #ifndef _DATATYPE_H_
 #define _DATATYPE_H_
 
-enum MessageType{
+enum MessageID{
 	SHUTDOWN,
+	GET_SETTINGS,
+	ERROR_MESSAGE,
 	DEFAULT
 };
 
-/* template<class T>
-struct Data{
-
-private:
-	T _data;
-		public:
-	void setData(T data){
-		_data = data;
-	};
+struct SettingsData{
 	
+	std::string host;
+	int port;
+	
+	// default settings
+	SettingsData():host("localhost"),port(8080){
+	};
+
 };
- */
 
 struct Message{
 
 	private:
-		MessageType _type;
+		MessageID _id;
 		void * _data;
 		
 		
 	public:
-		Message():_type(DEFAULT),_data(0){};
+		Message():_id(DEFAULT),_data(0){};
 	
-		void setType(MessageType type){
-			_type = type;
+		void setID(MessageID id){
+			_id = id;
 		};
 		
 		void setData(void * data){
 			_data = data;
 		};
 		
-		MessageType getType(){
-			return _type;	
+		MessageID getID(){
+			return _id;	
 		};
 		
 		void * getData(){
@@ -46,9 +46,6 @@ struct Message{
 		};
 		
 };
-
-
-
 
 template<class T>
 struct SmartPointer{
@@ -63,6 +60,7 @@ struct SmartPointer{
 		~SmartPointer(){
 		
 			delete(pointer);
+			pointer = 0;
 		
 		};
 
@@ -72,7 +70,10 @@ struct SmartPointer{
 		
 		};
 	
-};
-
+		void operator=(T * object){
+			delete(pointer);
+			pointer = object;
+		};
+}; 
 
 #endif
