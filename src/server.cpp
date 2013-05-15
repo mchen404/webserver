@@ -12,8 +12,15 @@ Server::~Server(){
 void Server::initialize(){
 	
 	// Register for messages
-	MessageType messagesToRegister[] = {SHUTDOWN};
-	_messageDispatcher->Register(this,messagesToRegister);
+	MessageID messagesToRegister[] = {SHUTDOWN};
+	_messageDispatcher->Register(this,messagesToRegister,sizeof(messagesToRegister)/sizeof(messagesToRegister[0]));
+	
+	// get settings
+	SettingsData settings;
+	Message message;
+	message.setID(GET_SETTINGS);
+	message.setData(&settings);
+	_messageDispatcher->sendMessage(message);
 	
 };
 
@@ -27,9 +34,9 @@ void Server::run(){
 
 void Server::receiveMessage(Message &message){
 
-	MessageType type = message.getType();
+	MessageID messageID = message.getID();
 	
-	switch(type){
+	switch(messageID){
 	
 		case SHUTDOWN:{
 			_running = false;
