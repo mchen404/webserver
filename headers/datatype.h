@@ -3,6 +3,9 @@
 
 #include <string>
 
+#define DEFAULT_HOST 	"localhost"
+#define DEFAULT_PORT 	8080
+
 enum MessageID{
 	SHUTDOWN,
 	GET_SETTINGS,
@@ -16,7 +19,7 @@ struct SettingsData{
 	int port;
 	
 	// default settings
-	SettingsData():host("localhost"),port(8080){
+	SettingsData():host(DEFAULT_HOST),port(DEFAULT_PORT){
 	};
 
 };
