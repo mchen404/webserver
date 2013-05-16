@@ -1,6 +1,8 @@
 #ifndef _DATATYPE_H_
 #define _DATATYPE_H_
 
+#include <string>
+
 enum MessageID{
 	SHUTDOWN,
 	GET_SETTINGS,
